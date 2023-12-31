@@ -4,10 +4,17 @@ from BlackjackGame import BlackjackGame
 buyin = int(input("Select your buy-in: "))
 game1 = BlackjackGame(2,buyin)
 print("Player Stack: " + str(game1.player1.stack))
+
+#game continues until either the player runs out of money or the deck runs out of cards
 while game1.player1.stack > 0 and len(game1.shoe.deck) > 10:
+    #var to make sure players are not allowed to double after hitting
     game1.hitcount = 0
+
+    #initializes the bet by taking in player's bet and dealing the cards
     playerbet = int(input("Select your bet: "))
     game1.startdeal(playerbet)
+
+    #allows player to take insurance if Dealer has an Ace upcard
     if game1.dealer.dealercards[1].rank == 'Ace':
         insurancechoice = input("Would you like to take insurance?: ")
         if insurancechoice == 'Yes':
@@ -96,6 +103,7 @@ while game1.player1.stack > 0 and len(game1.shoe.deck) > 10:
             game1.player1.playertotal2 = game1.player1.getPlayerTotal(2)
             while game1.player1.playertotal2 <= 21:
                 playersplit1decision = input("What is your decision for Hand 2 after split?: ")
+
                 #Player hits on the first hand
                 if playersplit1decision == 'Hit':
                     game1.playerHit(game1.player1.playercards2)
@@ -122,9 +130,12 @@ while game1.player1.stack > 0 and len(game1.shoe.deck) > 10:
         else:
             print("Please pick a valid action")
 
+    #prints the dealer's cards and hits the dealer hand until its value is over 17 or the hand busts
     print(game1.dealer.getCards())
     print("Dealer Total: " + str(game1.dealer.dealertotal))
     game1.dealerHit()
+
+    #pays out players when blackjack is not present
     if game1.player1.hasblackjack != True and game1.dealer.hasblackjack != True:
         game1.payout()
     print("Player Stack: " + str(game1.player1.stack))
