@@ -8,6 +8,14 @@ while game1.player1.stack > 0 and len(game1.shoe.deck) > 10:
     game1.hitcount = 0
     playerbet = int(input("Select your bet: "))
     game1.startdeal(playerbet)
+    if game1.dealer.dealercards[0].rank == 'Ace':
+        insurancechoice = input("Would you like to take insurance?: ")
+        if insurancechoice == 'Yes':
+            game1.player1.stack -= playerbet
+            pass
+        elif insurancechoice == 'No':
+            pass
+    game1.checkBlackjack()
 
     #actions for the player if no blackjack is present
     while game1.player1.playertotal1 <= 21 and game1.player1.hasblackjack == False and game1.dealer.hasblackjack == False:

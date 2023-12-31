@@ -40,6 +40,11 @@ class BlackjackGame:
         self.player1.playercards1.append(card2)
         self.dealer.dealercards.append(card3)
 
+    def takeInsurance(self):
+        if self.dealer.checkBlackjack() == True:
+            self.player1.stack += 3 * self.player1.playerbet1
+
+    def checkBlackjack(self):
         self.player1.checkBlackjack()
         self.dealer.checkBlackjack()
 
