@@ -43,10 +43,13 @@ class BlackjackGame:
     def takeInsurance(self):
         if self.dealer.checkBlackjack() == True:
             self.player1.stack += 3 * self.player1.playerbet1
+            print("Insurance Wins! \nPlayer Stack: " + str(self.player1.stack))
+        if self.dealer.checkBlackjack() == False:
+                print("Insurance loses. \nPlayer Stack: " + str(self.player1.stack))
 
     def checkBlackjack(self):
-        self.player1.checkBlackjack()
-        self.dealer.checkBlackjack()
+        self.player1.hasblackjack = self.player1.checkBlackjack()
+        self.dealer.hasblackjack = self.dealer.checkBlackjack()
 
         #checks and pays out blackjacks
         if self.dealer.hasblackjack == True and self.player1.hasblackjack == False:
@@ -125,7 +128,7 @@ class BlackjackGame:
     #decisions for dealer
     def dealerHit(self):
 
-        while self.dealer.dealertotal < 17 and self.player1.playertotal1 <= 21 and self.player1.hasblackjack == False and self.dealer.hasblackjack == False:
+        while self.dealer.dealertotal < 17 and (self.player1.playertotal1 <= 21 or self.player1.playertotal2 <= 21) and self.player1.hasblackjack == False and self.dealer.hasblackjack == False:
             hitcard = self.shoe.deck[0]
             self.shoe.deck.remove(hitcard)
             self.dealer.dealercards.append(hitcard)
@@ -147,7 +150,7 @@ class BlackjackGame:
     def payout(self):
 
         #pays out for the player's first hand
-        if self.dealer.dealertotal > 21:
+        if self.dealer.dealertotal > 21 and self.player1.playertotal1 <= 21:
             print("Dealer busts and Player wins " + str(2*self.player1.playerbet1) + " on Hand 1.")
             self.player1.stack += 2*self.player1.playerbet1
         elif self.dealer.dealertotal <= 21 and self.dealer.dealertotal < self.player1.playertotal1 and self.player1.playertotal1 <= 21:
@@ -161,7 +164,7 @@ class BlackjackGame:
 
         #pays out for the player's second hand
         while self.splitstatus == True:
-            if self.dealer.dealertotal > 21:
+            if self.dealer.dealertotal > 21 and self.player1.playertotal2 <= 21:
                 print("Dealer busts and Player wins " + str(2*self.player1.playerbet2) + " on Hand 2.")
                 self.player1.stack += 2*self.player1.playerbet2
             elif self.dealer.dealertotal <= 21 and self.dealer.dealertotal < self.player1.playertotal2 and self.player1.playertotal2 <= 21:

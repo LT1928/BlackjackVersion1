@@ -30,22 +30,20 @@ class Player:
             while index1 < len(self.playercards1):
                 handtotal += self.playercards1[index1].value
                 index1 += 1
-            self.playertotal1 = handtotal
-            return self.playertotal1
+            return handtotal
 
         elif splithandnumber == 2:
             while index2 < len(self.playercards2):
                 handtotal += self.playercards2[index2].value
                 index2 += 1
-            self.playertotal2 = handtotal
-            return self.playertotal2
+            return handtotal
 
     #checks player cards for blackjack
     def checkBlackjack(self):
         if self.playercards1[0].rank == 'Ace' and self.playercards1[1].value == 10:
-            self.hasblackjack = True
+            return True
         elif self.playercards1[1].rank == 'Ace' and self.playercards1[0].value == 10:
-            self.hasblackjack = True
+            return True
         else:
-            self.hasblackjack = False
+            return False
 

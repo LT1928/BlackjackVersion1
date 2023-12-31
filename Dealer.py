@@ -26,8 +26,8 @@ class Dealer:
     #checks dealer cards for blackjack
     def checkBlackjack(self):
         if self.dealercards[0].rank == 'Ace' and self.dealercards[1].value == 10:
-            self.hasblackjack = True
+            return True
         elif self.dealercards[1].rank == 'Ace' and self.dealercards[0].value == 10:
-            self.hasblackjack = True
+            return True
         else:
-            self.hasblackjack = False
+            return False

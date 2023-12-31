@@ -8,11 +8,11 @@ while game1.player1.stack > 0 and len(game1.shoe.deck) > 10:
     game1.hitcount = 0
     playerbet = int(input("Select your bet: "))
     game1.startdeal(playerbet)
-    if game1.dealer.dealercards[0].rank == 'Ace':
+    if game1.dealer.dealercards[1].rank == 'Ace':
         insurancechoice = input("Would you like to take insurance?: ")
         if insurancechoice == 'Yes':
             game1.player1.stack -= playerbet
-            pass
+            game1.takeInsurance()
         elif insurancechoice == 'No':
             pass
     game1.checkBlackjack()
@@ -41,6 +41,7 @@ while game1.player1.stack > 0 and len(game1.shoe.deck) > 10:
             game1.playerDoubleDown(playerbet)
             game1.playerHit(game1.player1.playercards1)
             print(game1.player1.getCards(game1.player1.playercards1))
+            print("Player total is " + str(game1.player1.playertotal1))
             break
 
         #Player Stands
@@ -54,9 +55,11 @@ while game1.player1.stack > 0 and len(game1.shoe.deck) > 10:
         #Player splits
         elif playerdecision == 'Split':
             game1.playerSplit()
-            splithandnumber = 1
+            game1.player1.playertotal1 = game1.player1.getPlayerTotal(1)
+            if game1.player1.playercards1[0].rank == 'Ace' and game1.player1.playercards1[1].rank == 'Ace':
+                game1.player1.playertotal1 = 12
             #determines the player's series of actions on the first hand
-            while game1.player1.getPlayerTotal(splithandnumber) <= 21:
+            while game1.player1.playertotal1 <= 21:
                 playersplit1decision = input("What is your decision for Hand 1 after split?: ")
                 #Player hits on the first hand
                 if playersplit1decision == 'Hit':
@@ -65,7 +68,7 @@ while game1.player1.stack > 0 and len(game1.shoe.deck) > 10:
                         splithandnumber = 2
                         game1.splithandnumber = splithandnumber
                         print(game1.player1.getCards(game1.player1.playercards1))
-                        print("Player total is " + str(game1.player1.playertotal1) + " on Hand 1 and Player Busts" + "\nStack Size:" + str(game1.player1.stack))
+                        print("Player total is " + str(game1.player1.playertotal1) + " on Hand 1 and Player Busts" + "\nStack Size: " + str(game1.player1.stack))
                     else:
                         print(game1.player1.getCards(game1.player1.playercards1))
                         print("Player total is " + str(game1.player1.playertotal1) + " on Hand 1")
@@ -88,14 +91,17 @@ while game1.player1.stack > 0 and len(game1.shoe.deck) > 10:
                     break
 
             #determines the player's series of actions on the second hand
-            while game1.player1.getPlayerTotal(splithandnumber) <= 21:
+            if game1.player1.playercards2[0].rank == 'Ace' and game1.player1.playercards2[1].rank == 'Ace':
+                game1.player1.playertotal2 = 12
+            game1.player1.playertotal2 = game1.player1.getPlayerTotal(2)
+            while game1.player1.playertotal2 <= 21:
                 playersplit1decision = input("What is your decision for Hand 2 after split?: ")
                 #Player hits on the first hand
                 if playersplit1decision == 'Hit':
                     game1.playerHit(game1.player1.playercards2)
                     if game1.player1.playertotal2 > 21:
                         print(game1.player1.getCards(game1.player1.playercards2))
-                        print("Player total is " + str(game1.player1.playertotal2) + " on hand 2 and Player Busts" + "\nStack Size:" + str(game1.player1.stack))
+                        print("Player total is " + str(game1.player1.playertotal2) + " on Hand 2 and Player Busts" + "\nStack Size: " + str(game1.player1.stack))
                     else:
                         print(game1.player1.getCards(game1.player1.playercards2))
                         print("Player total is " + str(game1.player1.playertotal2))
